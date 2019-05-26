@@ -18,6 +18,11 @@ class ProjectInfoManager {
         this.initialize();
     }
 
+    // 全てのプロジェクト情報を頂いていく！
+    getAll() {
+        return [...this.projects.values()];
+    }
+
     // id からプロジェクト情報を取得
     get(id) {
         return this.projects.get(id);

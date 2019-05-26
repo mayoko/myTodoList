@@ -43,6 +43,7 @@ class ProjectPageComponent extends React.Component {
                 <ProjectDescriptionComponent
                     project_id={this.state.project_id}
                 />
+                <ProjectAddingComponent />
             </div>
         );
     }
@@ -111,6 +112,49 @@ class ProjectComponent extends React.Component {
     onDoubleClick() {
         console.log(this.props.handleProjectDescription);
         this.props.handleProjectDescription(this.props.project_id);
+    }
+}
+
+class ProjectAddingComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            project_title : "",
+            project_text  : ""
+        };
+    }
+    render() {
+        return (
+            <div>
+                <label>project title</label>
+                <input type="text"
+                    name="project_title"
+                    value={this.state.project_title}
+                    onChange={(e) => this.setState({project_title : e.target.value})}
+                /><br/>
+                <label>project description</label>
+                <input type="text"
+                    name="project_text"
+                    value={this.state.project_text}
+                    onChange={(e) => this.setState({project_text : e.target.value})}
+                /><br/>
+                <label>parent project</label>
+                <select name="parent_project">
+                    {this.renderParentProjects()}
+                </select><br/>
+                <input type="submit" value="add" />
+            </div>
+        )
+    }
+
+    renderParentProjects() {
+        const projects = projectInfoManager.getAll();
+        console.log(projects);
+        return projects.map((project) => {
+            return (
+                <option value={project.id}>{project.title}</option>
+            )
+        })
     }
 }
 
