@@ -1,0 +1,22 @@
+.header {
+    border: solid 8px red;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+}
+
+.project {
+    width: 50%;
+    border: solid 4px blue;
+}
+
+.task {
+    width: 50%;
+    border: solid 4px blue;
+}
+
+.hide {
+    display: none;
+}
