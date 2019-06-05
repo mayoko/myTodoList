@@ -1,10 +1,12 @@
 import React from 'react';
 import {projectInfoManager} from '../utils/ProjectInfo';
+import ProjectMenuComponent from './ProjectMenuComponent';
+import { MenuProvider } from 'react-contexify';
+import 'react-contexify/dist/ReactContexify.min.css';
 
 class ProjectComponent extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         const project_id = props.project_id;
         const project = projectInfoManager.get(project_id);
         const children = projectInfoManager.getChildren(project_id);
@@ -20,17 +22,20 @@ class ProjectComponent extends React.Component {
     render() {
         return (
             <div>
-                <div
-                    onClick={this.onClick}
-                    onDoubleClick={this.onDoubleClick}
-                >
-                    <span>{this.state.title}</span>
-                </div>
-                <ul class={this.state.hidden ? "hide" : ""}>
-                    {this.renderChildren()}
-                </ul>
+                <MenuProvider id={"project_menu_id" + this.props.project_id} style = {{border: '1px solid purple', display: 'inline-block'}}>
+                    <div
+                        onClick={this.onClick}
+                        onDoubleClick={this.onDoubleClick}
+                    >
+                        <span>{this.state.title}</span>
+                    </div>
+                    <ul class={this.state.hidden ? "hide" : ""}>
+                        {this.renderChildren()}
+                    </ul>
+                </MenuProvider>
+                <ProjectMenuComponent id={"project_menu_id" + this.props.project_id}/>
             </div>
-        )
+        );
     }
 
     renderChildren() {
@@ -42,7 +47,7 @@ class ProjectComponent extends React.Component {
                 {
                     this.state.children.map((project_id) => {
                         return (
-                            <ProjectComponent
+                            <ProjectComponent key={project_id}
                                 project_id={project_id}
                                 handleProjectDescription={this.props.handleProjectDescription}
                             />
@@ -59,7 +64,6 @@ class ProjectComponent extends React.Component {
     }
 
     onDoubleClick() {
-        console.log(this.props.handleProjectDescription);
         this.props.handleProjectDescription(this.props.project_id);
     }
 }
